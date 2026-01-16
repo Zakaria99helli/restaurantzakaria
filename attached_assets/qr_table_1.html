@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Table 1</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+  <h2>QR كود طاولة رقم 1</h2>
+  <canvas id="qrcode"></canvas>
+  <script>
+    const url = "http://localhost:5000/?table=1";
+    QRCode.toCanvas(document.getElementById('qrcode'), url, { width: 256 }, function (error) {
+      if (error) console.error(error);
+    });
+  </script>
+  <p>امسح الكود لتجربة الطلب كعميل (طاولة 1)</p>
+</body>
+</html>

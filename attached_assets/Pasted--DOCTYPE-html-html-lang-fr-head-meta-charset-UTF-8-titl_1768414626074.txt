@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Admin | Damas Food</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .order-card { background: #1e293b; border-radius: 15px; padding: 20px; border-top: 5px solid #00a082; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 10px; margin-bottom: 15px; }
+        .table-no { background: #00a082; padding: 5px 12px; border-radius: 8px; font-weight: bold; }
+        .item-list { list-style: none; padding: 0; }
+        .item-list li { padding: 8px 0; border-bottom: 1px solid #334155; color: #cbd5e1; }
+        .total { text-align: right; color: #00a082; font-size: 1.2rem; font-weight: bold; margin-top: 15px; }
+        .btn-done { width: 100%; background: #334155; color: white; border: none; padding: 10px; border-radius: 8px; margin-top: 15px; cursor: pointer; }
+        .btn-done:hover { background: #ef4444; }
+    </style>
+</head>
+<body>
+    <h1>📟 Commandes en Direct</h1>
+    <div class="grid" id="orders-display"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAapyMqWP9uZ0biLZKwbdQ-apLn9_o964w",
+            authDomain: "restaurant-menu-28c93.firebaseapp.com",
+            databaseURL: "https://restaurant-menu-28c93-default-rtdb.firebaseio.com",
+            projectId: "restaurant-menu-28c93",
+            storageBucket: "restaurant-menu-28c93.firebasestorage.app",
+            messagingSenderId: "1043575815814",
+            appId: "1:1043575815814:web:3153fa758125b740285b07"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        db.ref('orders').on('child_added', (snap) => {
+            const data = snap.val();
+            const key = snap.key;
+            const container = document.getElementById('orders-display');
+            
+            const card = document.createElement('div');
+            card.className = 'order-card';
+            card.id = key;
+            card.innerHTML = `
+                <div class="header">
+                    <span class="table-no">Table ${data.table}</span>
+                    <small>${data.time}</small>
+                </div>
+                <ul class="item-list">
+                    ${data.items.map(i => `<li>🔹 ${i}</li>`).join('')}
+                </ul>
+                <div class="total">${data.total} €</div>
+                <button class="btn-done" onclick="completeOrder('${key}')">Marquer comme Terminé</button>
+            `;
+            container.prepend(card);
+            
+            // صوت رنة عند وصول طلب جديد
+            new Audio('https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3').play();
+        });
+
+        function completeOrder(key) {
+            if(confirm("Supprimer cette commande ?")) {
+                db.ref('orders').child(key).remove();
+                document.getElementById(key).remove();
+            }
+        }
+    </script>
+</body>
+</html>

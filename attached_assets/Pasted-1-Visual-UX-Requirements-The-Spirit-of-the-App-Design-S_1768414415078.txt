@@ -1,0 +1,48 @@
+1. Visual & UX Requirements (The "Spirit" of the App):
+Design Style: Uber Eats-inspired. Use a clean "Card-Grid Layout" (2 columns on mobile).
+
+Components: * Sticky Header with a Language Toggle (Arabic/French).
+
+Horizontal Scrollable Category Bar (Pizzas, Sandwichs, Burgers, Assiettes, Pita/Tacos, Tex-Mex).
+
+Each Food Card must include: A high-quality image placeholder, Item Name, Short Ingredients Description, Price, and a prominent (+) Add Button.
+
+The Smart Cart (Crucial): * A floating bottom bar that appears only when items are added.
+
+Clicking the bar opens a Full-Screen Modal (The Cart View).
+
+In the Cart View, users must be able to: Review items, increase/decrease quantities (+/-), and delete items.
+
+2. Technical Features & Logic:
+Dynamic Customization & Price Diff: * When an item is clicked, show options: "Extras" (e.g., +Extra Cheese +1.50€) and "Removals" (e.g., No Onions).
+
+The system must calculate the price difference automatically and update the total before sending.
+
+Multi-language Support: * Full translation for everything: Category names, Item titles, Descriptions, Button labels, and Success messages.
+
+Support RTL (Arabic) and LTR (French) layouts perfectly.
+
+Database Integration (Firebase): * Push orders to /orders/ path.
+
+Order structure: table_id, timestamp, items_array (formatted as: Name + Options + Note), and total_price.
+
+3. Admin/Kitchen Interface:
+Create a separate dashboard (admin.html) that listens to Firebase.
+
+Audio Alert: Play a "Ding" sound for every new order.
+
+Display orders as clear cards showing the Table Number and the detailed list of items.
+
+4. Detailed Menu Data (Damas Food Specialties):
+Include these sections with all Syrian specialties:
+
+Sandwichs: Shawarma Poulet, Falafel, Kefta, Foie (Fawwa), Shish Taouk.
+
+Pizzas: Margherita, Orientale, 4 Saisons, Damas Special.
+
+Pita/Tacos: Tacos 1/2/3 Viandes, Pita Special.
+
+Assiettes: Assiette Shawarma, Assiette Mixte, Assiette Falafel.
+
+Final Instruction for the AI:
+"Ensure the code is clean, single-file for the frontend (index.html), uses Vanilla JS (no heavy frameworks), and handles Firebase connection errors gracefully so the screen never appears empty. Use Google Fonts (Poppins & Cairo) and FontAwesome icons."
