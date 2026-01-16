@@ -25,7 +25,7 @@ export async function setupVite(server: Server, app: Express) {
     const url = req.originalUrl;
 
     try {
-      const clientTemplate = path.resolve(process.cwd(), "client", "index.html");
+      const clientTemplate = path.resolve(process.cwd(), "index.html");
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
       
       // بما أن root هو المجلد الرئيسي، يجب أن يكون المسار كاملاً

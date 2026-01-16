@@ -12,6 +12,11 @@ export default defineConfig(async () => {
   return {
     plugins,
     root: process.cwd(),
+    build: {
+      rollupOptions: {
+        input: path.resolve(__dirname, "client/index.html"),
+      },
+    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "client/src"),
