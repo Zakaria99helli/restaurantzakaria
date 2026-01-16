@@ -19,16 +19,19 @@ export class DatabaseStorage {
 
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user;
+    if (!user) return undefined;
+    return { ...user, role: user.role || "staff" };
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user;
+    if (!user) return undefined;
+    return { ...user, role: user.role || "staff" };
   }
 
   async getUsers(): Promise<User[]> {
-    return await db.select().from(users);
+    const allUsers = await db.select().from(users);
+    return allUsers.map(user => ({ ...user, role: user.role || "staff" }));
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
@@ -36,7 +39,7 @@ export class DatabaseStorage {
       ...insertUser,
       isAdmin: "false",
     }).returning();
-    return user;
+    return { ...user, role: user.role || "staff" };
   }
 
   async updateUser(id: string, update: Partial<User>): Promise<User | undefined> {
@@ -45,7 +48,8 @@ export class DatabaseStorage {
       .set(update)
       .where(eq(users.id, id))
       .returning();
-    return updatedUser;
+    if (!updatedUser) return undefined;
+    return { ...updatedUser, role: updatedUser.role || "staff" };
   }
 
   async deleteUser(id: string): Promise<boolean> {
